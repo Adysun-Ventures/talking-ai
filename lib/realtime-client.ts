@@ -13,6 +13,13 @@ export class RealtimeClient {
   private audioElement: HTMLAudioElement | null = null;
   private isSpeaking: boolean = false;
   private currentVoice: string = 'alloy';
+  private personaId: string = 'enstine';
+
+  constructor(options?: { personaId?: string }) {
+    if (options?.personaId) {
+      this.personaId = options.personaId;
+    }
+  }
 
   async connect(voice: string = 'alloy'): Promise<void> {
     try {
@@ -79,13 +86,17 @@ export class RealtimeClient {
       await this.peerConnection.setLocalDescription(offer);
 
       // Send offer to server which proxies to OpenAI using unified interface
-      const response = await fetch(`/api/realtime?voice=${encodeURIComponent(this.getVoiceId())}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/sdp',
-        },
-        body: offer.sdp!,
-      });
+      // Pass persona to get persona-specific instructions and voice
+      const response = await fetch(
+        `/api/realtime?persona=${encodeURIComponent(this.personaId)}&voice=${encodeURIComponent(this.getVoiceId())}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/sdp',
+          },
+          body: offer.sdp!,
+        }
+      );
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -118,42 +129,21 @@ export class RealtimeClient {
       // Mark as connected when data channel is ready
       this.setStatus('connected');
 
-      // Send minimal session configuration; include required session.type
-      const config = {
-        type: 'session.update',
-        session: {
-          type: 'realtime',
-          instructions: [
-            "You are 'Enstine Bot' — an AI statue that answers scientific questions.",
-            "Audience: Children and teenagers aged 8 to 18.",
-            "Supported languages: English, Hindi, Marathi only.",
-            "Default language: Start every conversation in Marathi.",
-            "If user replies in English or Hindi, continue in that same language.",
-            "Tone: Friendly, intelligent, respectful, and age-appropriate.",
-            "Answer style: Simple, clear, and short — like explaining to students.",
-            "Always explain in layman terms, avoid jargon and long explanations.",
-            "Responses must be precise and accurate; avoid open-ended answers.",
-            "Use minimal words, 2–4 lines max per reply.",
-            "Adapt tone to match the user's tone but maintain politeness and decency.",
-            "Never respond in any other language except English, Hindi, or Marathi.",
-            "If question is outside science, politely say: 'I only talk about science topics.'",
-            "Never use slang, sarcasm, or controversial remarks.",
-            "Maintain factual accuracy in all responses."
-          ].join('\n')
-        }
-      };
-
-      if (this.dataChannel) {
-        this.dataChannel.send(JSON.stringify(config));
-        // Marathi welcome aligned with default language policy
-        const greet = {
-          type: 'response.create',
-          response: {
-            instructions: "नमस्कार! मी Enstine Bot आहे. तुमचा विज्ञान प्रश्न विचारा."
-          }
-        };
-        this.dataChannel.send(JSON.stringify(greet));
-      }
+      /**
+       * NOTE: Instructions are now set server-side via persona config.
+       * Server controls session.instructions based on personaId.
+       * Client no longer sends session.update for instructions.
+       * This ensures single source of truth and prevents conflicts.
+       */
+      
+      // Optional: Trigger initial greeting from AI (persona-specific greeting handled by server instructions)
+      // Uncomment if you want to force an immediate response:
+      // if (this.dataChannel) {
+      //   const greet = {
+      //     type: 'response.create',
+      //   };
+      //   this.dataChannel.send(JSON.stringify(greet));
+      // }
     };
 
     this.dataChannel.onmessage = (event) => {

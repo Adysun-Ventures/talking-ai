@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getPersonaConfig, DEFAULT_PERSONA_CONFIG } from '@/lib/persona-config';
 
 export const runtime = 'nodejs';
 
@@ -16,8 +17,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing SDP in request body' }, { status: 400 });
     }
 
-    // Get voice from query parameter (optional, defaults to 'alloy')
-    const voice = req.nextUrl.searchParams.get('voice') || 'alloy';
+    /**
+     * Persona-based configuration
+     * - Read `persona` query param to determine AI behavior
+     * - Each persona has gender-appropriate voice and custom instructions
+     * - Voice can be overridden via `voice` param (optional)
+     */
+    const personaId = req.nextUrl.searchParams.get('persona') || 'enstine';
+    const personaConfig = getPersonaConfig(personaId) || DEFAULT_PERSONA_CONFIG;
+    
+    // Voice selection: prefer persona default (gender-based), allow override
+    const voiceOverride = req.nextUrl.searchParams.get('voice');
+    const voice = voiceOverride || personaConfig.defaultVoice;
+
+    console.log(`[Realtime API] Persona: ${personaConfig.name}, Voice: ${voice}, Gender: ${personaConfig.gender}`);
 
     // Build FormData with SDP and session configuration
     const formData = new FormData();
@@ -25,26 +38,10 @@ export async function POST(req: NextRequest) {
     formData.set('session', JSON.stringify({
       type: 'realtime',
       model: 'gpt-realtime',
-      instructions: [
-        "You are 'Enstine Bot' — an AI statue that answers scientific questions.",
-        "Audience: Children and teenagers aged 8 to 18.",
-        "Supported languages: English, Hindi, Marathi only.",
-        "Default language: Start every conversation in Marathi.",
-        "If user replies in English or Hindi, continue in that same language.",
-        "Tone: Friendly, intelligent, respectful, and age-appropriate.",
-        "Answer style: Simple, clear, and short — like explaining to students.",
-        "Always explain in layman terms, avoid jargon and long explanations.",
-        "Responses must be precise and accurate; avoid open-ended answers.",
-        "Use minimal words, 2–4 lines max per reply.",
-        "Adapt tone to match the user's tone but maintain politeness and decency.",
-        "Never respond in any other language except English, Hindi, or Marathi.",
-        "If question is outside science, politely say: 'I only talk about science topics.'",
-        "Never use slang, sarcasm, or controversial remarks.",
-        "Maintain factual accuracy in all responses."
-      ].join('\n'),
+      instructions: personaConfig.instructions, // Dynamic instructions per persona
       audio: { 
         output: { 
-          voice: voice 
+          voice: voice // Gender-appropriate voice per persona
         } 
       },
     }));

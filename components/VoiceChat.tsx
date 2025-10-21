@@ -43,8 +43,8 @@ export default function VoiceChat({ personaId, defaultVoice }: VoiceChatProps) {
     setError(null);
 
     try {
-      // Init client
-      const client = new RealtimeClient();
+      // Init client with persona context (server will use this for instructions + voice)
+      const client = new RealtimeClient({ personaId });
       realtimeClientRef.current = client;
 
       client.setOnStatusChange((newStatus) => {

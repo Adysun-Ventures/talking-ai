@@ -115,31 +115,15 @@ export class RealtimeClient {
     this.dataChannel.onopen = () => {
       console.log('Data channel opened');
       
-      // Send session configuration with correct parameters
+      // Mark as connected when data channel is ready
+      this.setStatus('connected');
+
+      // Send minimal session configuration; include required session.type
       const config = {
         type: 'session.update',
         session: {
           type: 'realtime',
-          modalities: ['text', 'audio'],
-          instructions: 'You are a helpful AI assistant. Respond naturally and conversationally.',
-          voice: this.getVoiceId(),
-          input_audio_format: 'pcm16',
-          output_audio_format: 'pcm16',
-          input_audio_transcription: {
-            model: 'whisper-1',
-            language: 'en'
-          },
-          turn_detection: {
-            type: 'server_vad',
-            eagerness: 'auto',
-            threshold: 0.5,
-            prefix_padding_ms: 300,
-            silence_duration_ms: 500,
-            create_response: true,
-            interrupt_response: true
-          },
-          temperature: 0.8,
-          max_response_output_tokens: 4096
+          instructions: 'You are a helpful AI assistant. Respond naturally and conversationally.'
         }
       };
 
@@ -171,15 +155,23 @@ export class RealtimeClient {
         console.log('Session created successfully');
         break;
       case 'response.audio.delta':
-        // Handle audio response chunks
+        // Legacy name; keep for compatibility
         this.handleAudioDelta(event.delta);
         break;
-      case 'response.audio.done':
-        // Audio response complete
+      case 'response.output_audio_transcript.delta':
+        // Transcript is streaming; consider AI as speaking
+        this.setSpeaking(true);
+        break;
+      case 'response.output_audio.done':
+        // Output audio finished
         this.setSpeaking(false);
         break;
-      case 'response.audio_start':
-        // AI started speaking
+      case 'output_audio_buffer.stopped':
+        // Buffering stopped indicates end of speech
+        this.setSpeaking(false);
+        break;
+      case 'output_audio_buffer.started':
+        // Buffering started; AI is speaking
         this.setSpeaking(true);
         break;
       case 'conversation.item.input_audio_buffer.speech_started':

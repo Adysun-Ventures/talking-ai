@@ -4,17 +4,28 @@ import { useState, useEffect, useRef } from 'react';
 import { RealtimeClient } from '@/lib/realtime-client';
 import type { ConnectionStatus } from '@/types/realtime';
 import ConnectionStatusComponent from './ConnectionStatus';
-import VoiceSelector from './VoiceSelector';
 import { cn } from '@/lib/utils';
 
-export default function VoiceChat() {
+type VoiceChatProps = {
+  personaId?: string;
+  defaultVoice?: string;
+};
+
+export default function VoiceChat({ personaId, defaultVoice }: VoiceChatProps) {
   const [status, setStatus] = useState<ConnectionStatus>('disconnected');
-  const [selectedVoice, setSelectedVoice] = useState('alloy');
+  const [selectedVoice, setSelectedVoice] = useState(defaultVoice || 'alloy');
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
   const realtimeClientRef = useRef<RealtimeClient | null>(null);
+
+  // Update voice when defaultVoice prop changes
+  useEffect(() => {
+    if (defaultVoice) {
+      setSelectedVoice(defaultVoice);
+    }
+  }, [defaultVoice]);
 
   useEffect(() => {
     return () => {
@@ -68,11 +79,7 @@ export default function VoiceChat() {
     setIsSpeaking(false);
   };
 
-  const handleVoiceChange = (voiceId: string) => {
-    setSelectedVoice(voiceId);
-    // Reconnect to apply new voice
-    if (status === 'connected') handleStopCall();
-  };
+  // Voice selection is disabled; we use persona-provided defaultVoice only.
 
   const isConnected = status === 'connected';
   const isDisabled = isConnecting || status === 'connecting';
@@ -133,12 +140,7 @@ export default function VoiceChat() {
         )}
       </div>
 
-      {/* Voice Selector */}
-      <VoiceSelector
-        selectedVoice={selectedVoice}
-        onVoiceChange={handleVoiceChange}
-        disabled={isDisabled}
-      />
+      {/* Voice selection UI removed; voice is chosen per persona. */}
 
     </div>
   );

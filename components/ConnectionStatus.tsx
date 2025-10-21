@@ -46,11 +46,16 @@ export default function ConnectionStatus({ status, className }: ConnectionStatus
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
-      <div className={cn(
-        "w-2 h-2 rounded-full animate-pulse",
-        config.bgColor
-      )}></div>
-      <span className={cn("text-sm font-medium", config.color)}>
+      <div
+        className={cn(
+          "w-2 h-2 rounded-full animate-pulse",
+          status === 'connected' ? 'bg-green-400' : 'bg-red-400'
+        )}
+      ></div>
+      <span className={cn(
+        "text-sm font-medium",
+        status === 'connected' ? 'text-green-400' : 'text-red-400'
+      )}>
         {config.text}
       </span>
     </div>

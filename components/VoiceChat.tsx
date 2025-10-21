@@ -86,16 +86,6 @@ export default function VoiceChat({ personaId, defaultVoice }: VoiceChatProps) {
 
   return (
     <div className="flex flex-col items-center gap-8 p-8">
-      {/* Connection Status */}
-      <div className="flex items-center gap-4">
-        {isSpeaking && (
-          <div className="flex items-center gap-2 text-white/80">
-            <div className="w-2 h-2 rounded-full animate-pulse bg-blue-400" />
-            <span className="text-sm">AI is speaking...</span>
-          </div>
-        )}
-        <ConnectionStatusComponent status={status} />
-      </div>
 
       {/* Error Message */}
       {error && (
@@ -140,6 +130,18 @@ export default function VoiceChat({ personaId, defaultVoice }: VoiceChatProps) {
         )}
       </div>
 
+
+
+      {/* Connection Status */}
+      <div className="flex items-center gap-4">
+        <ConnectionStatusComponent status={status} />
+        {isSpeaking && (
+          <div className="flex items-center gap-2 text-white/80">
+            <div className="w-2 h-2 rounded-full animate-pulse bg-blue-400" />
+            <span className="text-sm">AI is speaking...</span>
+          </div>
+        )}
+      </div>
       {/* Voice selection UI removed; voice is chosen per persona. */}
 
     </div>

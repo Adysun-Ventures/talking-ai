@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { AudioService } from '@/lib/audio-service';
-import { RealtimeClient } from '@/lib/realtime-client';
+import { RealtimeSDKClient } from '@/lib/realtime-sdk-client';
 import { ConnectionStatus, RealtimeSession } from '@/types/realtime';
 import ConnectionStatusComponent from './ConnectionStatus';
 import VoiceSelector from './VoiceSelector';
@@ -15,16 +14,12 @@ export default function VoiceChat() {
   const [error, setError] = useState<string | null>(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
-  const audioServiceRef = useRef<AudioService | null>(null);
-  const realtimeClientRef = useRef<RealtimeClient | null>(null);
+  const realtimeClientRef = useRef<RealtimeSDKClient | null>(null);
 
   useEffect(() => {
-    // Initialize audio service
-    audioServiceRef.current = new AudioService();
-    
     return () => {
       // Cleanup on unmount
-      audioServiceRef.current?.cleanup();
+      realtimeClientRef.current?.disconnect();
     };
   }, []);
 
@@ -38,11 +33,6 @@ export default function VoiceChat() {
     setError(null);
 
     try {
-      // Initialize audio service
-      if (!audioServiceRef.current?.isInitialized) {
-        await audioServiceRef.current?.initialize();
-      }
-
       // Create session
       const response = await fetch('/api/session');
       if (!response.ok) {
@@ -51,8 +41,8 @@ export default function VoiceChat() {
 
       const session: RealtimeSession = await response.json();
 
-      // Create realtime client
-      realtimeClientRef.current = new RealtimeClient(audioServiceRef.current!);
+      // Create SDK client
+      realtimeClientRef.current = new RealtimeSDKClient();
       
       realtimeClientRef.current.setOnStatusChange((newStatus) => {
         setStatus(newStatus);
@@ -67,8 +57,8 @@ export default function VoiceChat() {
         setStatus('error');
       });
 
-      // Connect to realtime API
-      await realtimeClientRef.current.connect(session);
+      // Connect to realtime API with SDK
+      await realtimeClientRef.current.connect(session.token, selectedVoice);
 
     } catch (error) {
       console.error('Failed to start call:', error);
@@ -91,7 +81,10 @@ export default function VoiceChat() {
 
   const handleVoiceChange = (voiceId: string) => {
     setSelectedVoice(voiceId);
-    // TODO: Update voice in realtime session
+    // Note: Voice change requires reconnection with new voice
+    if (status === 'connected') {
+      handleStopCall();
+    }
   };
 
   const isConnected = status === 'connected';

@@ -97,12 +97,7 @@ export default function VoiceChat() {
         </div>
       )}
 
-      {/* Voice Selector */}
-      <VoiceSelector
-        selectedVoice={selectedVoice}
-        onVoiceChange={handleVoiceChange}
-        disabled={isDisabled}
-      />
+  
 
       {/* Main Call Button */}
       <div className="relative">
@@ -138,24 +133,13 @@ export default function VoiceChat() {
         )}
       </div>
 
-      <div className="text-center text-white/80 max-w-md">
-        {isConnected ? <p>Click the button to stop the call</p> : <p>Click the button to start a voice conversation with AI</p>}
-      </div>
+      {/* Voice Selector */}
+      <VoiceSelector
+        selectedVoice={selectedVoice}
+        onVoiceChange={handleVoiceChange}
+        disabled={isDisabled}
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center text-white/70 text-sm">
-        <div className="bg-white/5 rounded-lg p-4">
-          <div className="font-medium text-white mb-1">Real-time</div>
-          <div>Low-latency voice chat</div>
-        </div>
-        <div className="bg-white/5 rounded-lg p-4">
-          <div className="font-medium text-white mb-1">Interrupt</div>
-          <div>Speak anytime to interrupt</div>
-        </div>
-        <div className="bg-white/5 rounded-lg p-4">
-          <div className="font-medium text-white mb-1">Multiple Voices</div>
-          <div>Choose from 6 different voices</div>
-        </div>
-      </div>
     </div>
   );
 }

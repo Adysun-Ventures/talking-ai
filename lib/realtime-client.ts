@@ -260,11 +260,15 @@ export class RealtimeClient {
     // Map voice names to OpenAI voice IDs
     const voiceMap: { [key: string]: string } = {
       'alloy': 'alloy',
-      'echo': 'echo', 
-      'fable': 'fable',
-      'onyx': 'onyx',
-      'nova': 'nova',
-      'shimmer': 'shimmer'
+      'ash': 'ash',
+      'ballad': 'ballad',
+      'coral': 'coral',
+      'echo': 'echo',
+      'sage': 'sage',
+      'shimmer': 'shimmer',
+      'verse': 'verse',
+      'marin': 'marin',
+      'cedar': 'cedar'
     };
     return voiceMap[this.currentVoice] || 'alloy';
   }

@@ -43,10 +43,14 @@ export interface SessionConfig {
 }
 
 export const VOICE_OPTIONS: VoiceOption[] = [
-  { id: 'alloy', name: 'Alloy', description: 'Neutral, balanced tone' },
-  { id: 'echo', name: 'Echo', description: 'Warm, friendly voice' },
-  { id: 'fable', name: 'Fable', description: 'Expressive, storytelling voice' },
-  { id: 'onyx', name: 'Onyx', description: 'Deep, authoritative voice' },
-  { id: 'nova', name: 'Nova', description: 'Bright, energetic voice' },
-  { id: 'shimmer', name: 'Shimmer', description: 'Soft, gentle voice' },
+  { id: 'alloy', name: 'Alloy', description: 'Balanced, natural tone' },
+  { id: 'ash', name: 'Ash', description: 'Soft, calm presence' },
+  { id: 'ballad', name: 'Ballad', description: 'Warm, narrative style' },
+  { id: 'coral', name: 'Coral', description: 'Bright and friendly' },
+  { id: 'echo', name: 'Echo', description: 'Clear, approachable voice' },
+  { id: 'sage', name: 'Sage', description: 'Confident, thoughtful' },
+  { id: 'shimmer', name: 'Shimmer', description: 'Gentle and smooth' },
+  { id: 'verse', name: 'Verse', description: 'Expressive, engaging' },
+  { id: 'marin', name: 'Marin', description: 'Crisp, youthful' },
+  { id: 'cedar', name: 'Cedar', description: 'Deep, resonant' },
 ];

@@ -123,12 +123,20 @@ export class RealtimeClient {
         type: 'session.update',
         session: {
           type: 'realtime',
-          instructions: 'You are a helpful AI assistant. Respond naturally and conversationally.'
+          instructions: `Always begin the call by greeting with the single word 'Konnichiwa'. After the greeting, continue the conversation in English by default. If the user specifies a language preference, immediately switch to that language and continue in it for the rest of the conversation.`
         }
       };
 
       if (this.dataChannel) {
         this.dataChannel.send(JSON.stringify(config));
+        // Proactively trigger greeting so the model starts speaking immediately
+        const greet = {
+          type: 'response.create',
+          response: {
+            instructions: "Greet now with 'Konnichiwa'. Then continue in English by default unless the user specifies another language, in which case switch to that language for the rest of the call."
+          }
+        };
+        this.dataChannel.send(JSON.stringify(greet));
       }
     };
 

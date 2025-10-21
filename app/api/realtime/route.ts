@@ -24,7 +24,11 @@ export async function POST(req: NextRequest) {
     formData.set('sdp', sdp);
     formData.set('session', JSON.stringify({
       type: 'realtime',
-      model: 'gpt-realtime',
+      model: 'gpt-realtime', instructions:
+      "Always begin the call by greeting with the single word 'Konnichiwa'. " +
+      "After the greeting, continue the conversation in English by default. " +
+      "If the user specifies a language preference, immediately switch to that language " +
+      "and continue in it for the rest of the conversation.",
       audio: { 
         output: { 
           voice: voice 

@@ -32,7 +32,7 @@ export default function Home({ searchParams }: HomeProps) {
   return (
     <main className={cn("min-h-screen bg-neutral-950 relative p-4 sm:p-6 bg-cover bg-center flex items-center justify-center", bgClass)}>
       <div className="absolute inset-0 backdrop-blur-lg" aria-hidden="true" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" aria-hidden="true" />
+      <div className="absolute inset-0 bg-black/80" aria-hidden="true" />
       <div className="relative z-10 w-full max-w-5xl">
         <div className="rounded-2xl p-6 shadow-2xl border border-white/15 bg-white/10 backdrop-blur-xl ring-1 ring-white/10">
           <div className="flex justify-end mb-2">

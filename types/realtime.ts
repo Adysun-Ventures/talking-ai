@@ -1,7 +1,6 @@
 export interface RealtimeSession {
-  id: string;
   token: string;
-  expires_at: number;
+  expires_at: string;
 }
 
 export interface VoiceOption {

@@ -1,6 +1,6 @@
 'use client';
 
-import { ConnectionStatus } from '@/types/realtime';
+import type { ConnectionStatus } from '@/types/realtime';
 import { cn } from '@/lib/utils';
 
 interface ConnectionStatusProps {

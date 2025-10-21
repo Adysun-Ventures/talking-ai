@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { RealtimeFallbackClient } from '@/lib/realtime-fallback-client';
-import { ConnectionStatus, RealtimeSession } from '@/types/realtime';
+import type { ConnectionStatus, RealtimeSession } from '@/types/realtime';
 import ConnectionStatusComponent from './ConnectionStatus';
 import VoiceSelector from './VoiceSelector';
 import { cn } from '@/lib/utils';

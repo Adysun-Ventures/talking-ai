@@ -1,4 +1,4 @@
-import { ConnectionStatus } from '@/types/realtime';
+import type { ConnectionStatus } from '@/types/realtime';
 
 export class RealtimeSDKClient {
   private session: any = null;

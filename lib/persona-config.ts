@@ -42,7 +42,7 @@ export const PERSONA_CONFIGS: PersonaConfig[] = [
     id: 'enstine',
     name: 'Enstine',
     gender: 'male',
-    defaultVoice: 'sage', // Male voice
+    defaultVoice: 'cedar', // Male voice (deeper tone)
     instructions: [
       "You are 'Enstine Bot' — an AI statue that answers scientific questions.",
       "Audience: Children and teenagers aged 8 to 18.",

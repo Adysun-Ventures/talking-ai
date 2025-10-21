@@ -29,7 +29,7 @@ export const PERSONAS: Persona[] = [
     initials: 'EB',
     gender: 'male',
     image: '/personas/albert-einstein.jpg',
-    defaultVoice: 'sage',
+    defaultVoice: 'cedar',
   },
   {
     id: 'sarasvati',

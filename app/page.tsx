@@ -1,5 +1,6 @@
 import VoiceChat from '@/components/VoiceChat';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 import { PERSONA_BY_ID, DEFAULT_PERSONA_ID } from '@/components/persona/personas';
 import PersonaAvatar from '@/components/persona/PersonaAvatar';
 import PersonaBadges from '@/components/persona/PersonaBadges';
@@ -13,10 +14,26 @@ export default function Home({ searchParams }: HomeProps) {
   const personaId = searchParams.persona || DEFAULT_PERSONA_ID;
   const persona = PERSONA_BY_ID[personaId] || PERSONA_BY_ID[DEFAULT_PERSONA_ID];
 
+  // Tailwind cannot generate arbitrary URL classes from variables; define per-persona classes
+  const bgClass =
+    persona.id === 'shivaji-maharaj'
+      ? 'bg-[url(/personas/shivaji-maharaj.jpg)]'
+      : persona.id === 'enstine'
+      ? 'bg-[url(/personas/albert-einstein.jpg)]'
+      : persona.id === 'sarasvati'
+      ? 'bg-[url(/personas/sarasvati.jpg)]'
+      : persona.id === 'babasaheb-ambedkar'
+      ? 'bg-[url(/personas/br-ambedkar.jpg)]'
+      : persona.id === 'bhagat-singh'
+      ? 'bg-[url(/personas/bhagat-singh.jpg)]'
+      : undefined;
+
   return (
-    <main className="min-h-screen bg-neutral-950 flex items-center justify-center p-6">
-      <div className="w-full max-w-5xl">
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 shadow-lg">
+    <main className={cn("min-h-screen bg-neutral-950 relative p-6 bg-cover bg-center flex items-center justify-center", bgClass)}>
+      <div className="absolute inset-0 backdrop-blur-lg" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" aria-hidden="true" />
+      <div className="relative z-10 w-full max-w-5xl">
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 shadow-lg backdrop-blur-sm">
           <div className="flex justify-end mb-2">
             <Link href="/explore" aria-label="Explore" title="explore other bots !" className="transition duration-200 ease-out">
               <span className="grid place-items-center hover:scale-110 hover:-rotate-3 transition duration-200 ease-out">

@@ -2,6 +2,7 @@
 
 import type { ConnectionStatus } from '@/types/realtime';
 import { cn } from '@/lib/utils';
+import { Mic } from 'lucide-react';
 
 interface ConnectionStatusProps {
   status: ConnectionStatus;
@@ -15,29 +16,25 @@ export default function ConnectionStatus({ status, className }: ConnectionStatus
         return {
           text: 'Connected',
           color: 'text-green-400',
-          bgColor: 'bg-green-400',
-          icon: '🟢'
+          bgColor: 'bg-green-400'
         };
       case 'connecting':
         return {
           text: 'Connecting...',
           color: 'text-yellow-400',
-          bgColor: 'bg-yellow-400',
-          icon: '🟡'
+          bgColor: 'bg-yellow-400'
         };
       case 'error':
         return {
           text: 'Error',
           color: 'text-red-400',
-          bgColor: 'bg-red-400',
-          icon: '🔴'
+          bgColor: 'bg-red-400'
         };
       default:
         return {
-          text: 'Disconnected',
+          text: 'Press to ask',
           color: 'text-gray-400',
-          bgColor: 'bg-gray-400',
-          icon: '⚪'
+          bgColor: 'bg-gray-400'
         };
     }
   };
@@ -46,12 +43,17 @@ export default function ConnectionStatus({ status, className }: ConnectionStatus
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
-      <div
-        className={cn(
-          "w-2 h-2 rounded-full animate-pulse",
-          status === 'connected' ? 'bg-green-400' : 'bg-red-400'
-        )}
-      ></div>
+      {status === 'connected' && (
+        <div
+          className={cn(
+            "w-2 h-2 rounded-full animate-pulse",
+            'bg-green-400'
+          )}
+        ></div>
+      )}
+      {status !== 'connected' && (
+        <Mic className={cn('w-4 h-4', 'text-red-400')} />
+      )}
       <span className={cn(
         "text-sm font-medium",
         status === 'connected' ? 'text-green-400' : 'text-red-400'

@@ -55,9 +55,6 @@ export default function Home({ searchParams }: HomeProps) {
                 <h2 className="text-white text-2xl font-semibold mb-2">{persona.name}</h2>
                 <p className="text-white/60 text-sm mb-3">{persona.description}</p>
                 <PersonaBadges badges={persona.badges} />
-                <div className="mt-2 text-xs text-white/50">
-                  Voice: <span className="capitalize text-white/70">{persona.defaultVoice || '—'}</span>
-                </div>
               </div>
             </div>
             

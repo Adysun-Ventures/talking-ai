@@ -16,7 +16,7 @@ export const PERSONAS: Persona[] = [
     description: 'Strategic leader and founder of the Maratha Empire.',
     badges: ['Historical', 'Leadership', 'Maratha Empire'],
     initials: 'SM',
-    image: '/personas/shivaji-maharaj.png',
+    image: '/personas/shivaji-maharaj.jpg',
     defaultVoice: 'cedar',
   },
   {
@@ -25,7 +25,7 @@ export const PERSONAS: Persona[] = [
     description: 'Science mentor for kids; simple and accurate answers.',
     badges: ['Polite', 'Scientific Only', 'Concise'],
     initials: 'EB',
-    image: '/personas/enstine.png',
+    image: '/personas/albert-einstein.jpg',
     defaultVoice: 'sage',
   },
   {
@@ -34,7 +34,7 @@ export const PERSONAS: Persona[] = [
     description: 'Goddess of knowledge, music, art, and wisdom.',
     badges: ['Cultural', 'Knowledge', 'Inspiration'],
     initials: 'SA',
-    image: '/personas/sarasvati.png',
+    image: '/personas/sarasvati.jpg',
     defaultVoice: 'shimmer',
   },
   {
@@ -43,7 +43,7 @@ export const PERSONAS: Persona[] = [
     description: 'Jurist, economist, social reformer; architect of the Constitution of India.',
     badges: ['Historical', 'Reforms', 'Civil Rights'],
     initials: 'BA',
-    image: '/personas/babasaheb-ambedkar.png',
+    image: '/personas/br-ambedkar.jpg',
     defaultVoice: 'ballad',
   },
   {
@@ -52,7 +52,7 @@ export const PERSONAS: Persona[] = [
     description: 'Revolutionary freedom fighter who inspired generations.',
     badges: ['Historical', 'Freedom', 'Inspiration'],
     initials: 'BS',
-    image: '/personas/bhagat-singh.png',
+    image: '/personas/bhagat-singh.jpg',
     defaultVoice: 'echo',
   },
 ];

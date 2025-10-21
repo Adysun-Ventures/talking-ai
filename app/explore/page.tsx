@@ -1,19 +1,15 @@
 import Link from 'next/link';
 import BackButton from '@/components/BackButton';
+import HeaderBar from '@/components/HeaderBar';
 import { PERSONAS } from '@/components/persona/personas';
 import PersonaAvatar from '@/components/persona/PersonaAvatar';
 import PersonaBadges from '@/components/persona/PersonaBadges';
 
 export default function ExplorePage() {
   return (
-    <main className="min-h-screen bg-neutral-950 p-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-4 flex items-center justify-between">
-          <BackButton />
-          <div className="text-white/90 text-xl">Choose a persona</div>
-          <div className="w-16" />
-        </div>
-        <div className="mb-6 text-white/60 text-sm">Tap a card to start a voice session with that persona.</div>
+    <main className="min-h-screen bg-neutral-950">
+      <HeaderBar left={<BackButton />} title="Explore more AI personas" />
+      <div className="max-w-6xl mx-auto p-6">
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {PERSONAS.map((persona) => (
             <Link

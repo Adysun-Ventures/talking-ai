@@ -14,7 +14,7 @@ export class RealtimeClient {
   private isSpeaking: boolean = false;
   private currentVoice: string = 'alloy';
 
-  async connect(apiKey: string, voice: string = 'alloy'): Promise<void> {
+  async connect(voice: string = 'alloy'): Promise<void> {
     try {
       this.setStatus('connecting');
       this.currentVoice = voice;
@@ -78,20 +78,18 @@ export class RealtimeClient {
       });
       await this.peerConnection.setLocalDescription(offer);
 
-      // Send offer to OpenAI Realtime API
-      const response = await fetch('https://api.openai.com/v1/realtime/calls?model=gpt-realtime', {
+      // Send offer to server which proxies to OpenAI using unified interface
+      const response = await fetch(`/api/realtime?voice=${encodeURIComponent(this.getVoiceId())}`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/sdp',
-          'OpenAI-Beta': 'realtime=v1',
         },
-        body: offer.sdp
+        body: offer.sdp!,
       });
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`OpenAI API error: ${response.status} ${response.statusText} - ${errorText}`);
+        throw new Error(`Realtime API error: ${response.status} ${response.statusText} - ${errorText}`);
       }
 
       // Set remote description with answer

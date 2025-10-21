@@ -7,11 +7,6 @@ import ConnectionStatusComponent from './ConnectionStatus';
 import VoiceSelector from './VoiceSelector';
 import { cn } from '@/lib/utils';
 
-type RealtimeSession = {
-  token: string;
-  expires_at?: string; // ISO string (~60s TTL)
-};
-
 export default function VoiceChat() {
   const [status, setStatus] = useState<ConnectionStatus>('disconnected');
   const [selectedVoice, setSelectedVoice] = useState('alloy');
@@ -27,23 +22,6 @@ export default function VoiceChat() {
     };
   }, []);
 
-  async function fetchSession(): Promise<RealtimeSession> {
-    const ac = new AbortController();
-    const tid = setTimeout(() => ac.abort(), 10_000); // 10s safety timeout
-    try {
-      const res = await fetch('/api/session', { signal: ac.signal });
-      const json = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        // Pass through server-provided details so you can see OpenAI's actual error
-        throw new Error(json?.details || json?.error || res.statusText || 'Failed to create session');
-      }
-      if (!json?.token) throw new Error('Server did not return a token');
-      return json as RealtimeSession;
-    } finally {
-      clearTimeout(tid);
-    }
-  }
-
   const handleStartCall = async () => {
     if (status === 'connected') {
       handleStopCall();
@@ -54,10 +32,7 @@ export default function VoiceChat() {
     setError(null);
 
     try {
-      // 1) Get fresh ephemeral token (TTL ~60s)
-      const session = await fetchSession();
-
-      // 2) Init client
+      // Init client
       const client = new RealtimeClient();
       realtimeClientRef.current = client;
 
@@ -66,17 +41,7 @@ export default function VoiceChat() {
         if (newStatus === 'connected') setIsConnecting(false);
       });
 
-      client.setOnError(async (errorMessage) => {
-        // If token expired mid-setup, fetch a new one and retry once
-        if (/expired|unauthorized|401/i.test(String(errorMessage))) {
-          try {
-            const newSession = await fetchSession();
-            await client.connect(newSession.token, selectedVoice);
-            return;
-          } catch (e) {
-            // fall through to UI error
-          }
-        }
+      client.setOnError((errorMessage) => {
         setError(String(errorMessage));
         setIsConnecting(false);
         setStatus('error');
@@ -84,8 +49,8 @@ export default function VoiceChat() {
 
       client.setOnSpeakingChange((speaking) => setIsSpeaking(speaking));
 
-      // 3) Connect using token + selected voice
-      await client.connect(session.token, selectedVoice);
+      // Connect with selected voice (server handles authentication)
+      await client.connect(selectedVoice);
     } catch (e) {
       console.error('Failed to start call:', e);
       setError(e instanceof Error ? e.message : 'Failed to start call');

@@ -124,11 +124,11 @@ export class RealtimeClient {
         session: {
           type: 'realtime',
           instructions: [
-            "You are 'Einstein Bot' — an AI statue that answers scientific questions.",
+            "You are 'Enstine Bot' — an AI statue that answers scientific questions.",
             "Audience: Children and teenagers aged 8 to 18.",
             "Supported languages: English, Hindi, Marathi only.",
-            "Default language: Start every conversation in English.",
-            "If user replies in Hindi or Marathi, continue in that same language.",
+            "Default language: Start every conversation in Marathi.",
+            "If user replies in English or Hindi, continue in that same language.",
             "Tone: Friendly, intelligent, respectful, and age-appropriate.",
             "Answer style: Simple, clear, and short — like explaining to students.",
             "Always explain in layman terms, avoid jargon and long explanations.",
@@ -145,11 +145,11 @@ export class RealtimeClient {
 
       if (this.dataChannel) {
         this.dataChannel.send(JSON.stringify(config));
-        // Optional: trigger a brief English welcome aligned with Einstein Bot policy
+        // Marathi welcome aligned with default language policy
         const greet = {
           type: 'response.create',
           response: {
-            instructions: "Hello! I'm Einstein Bot. Ask me any science question."
+            instructions: "नमस्कार! मी Enstine Bot आहे. तुमचा विज्ञान प्रश्न विचारा."
           }
         };
         this.dataChannel.send(JSON.stringify(greet));

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { RealtimeSDKClient } from '@/lib/realtime-sdk-client';
+import { RealtimeFallbackClient } from '@/lib/realtime-fallback-client';
 import { ConnectionStatus, RealtimeSession } from '@/types/realtime';
 import ConnectionStatusComponent from './ConnectionStatus';
 import VoiceSelector from './VoiceSelector';
@@ -14,7 +14,7 @@ export default function VoiceChat() {
   const [error, setError] = useState<string | null>(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
-  const realtimeClientRef = useRef<RealtimeSDKClient | null>(null);
+  const realtimeClientRef = useRef<RealtimeFallbackClient | null>(null);
 
   useEffect(() => {
     return () => {
@@ -41,8 +41,8 @@ export default function VoiceChat() {
 
       const session: RealtimeSession = await response.json();
 
-      // Create SDK client
-      realtimeClientRef.current = new RealtimeSDKClient();
+      // Create fallback client
+      realtimeClientRef.current = new RealtimeFallbackClient();
       
       realtimeClientRef.current.setOnStatusChange((newStatus) => {
         setStatus(newStatus);

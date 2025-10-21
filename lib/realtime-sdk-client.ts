@@ -1,9 +1,8 @@
-import { RealtimeAgent, RealtimeSession } from '@openai/agents-realtime';
 import { ConnectionStatus } from '@/types/realtime';
 
 export class RealtimeSDKClient {
-  private session: RealtimeSession | null = null;
-  private agent: RealtimeAgent | null = null;
+  private session: any = null;
+  private agent: any = null;
   private status: ConnectionStatus = 'disconnected';
   private onStatusChange?: (status: ConnectionStatus) => void;
   private onError?: (error: string) => void;
@@ -11,6 +10,9 @@ export class RealtimeSDKClient {
   async connect(apiKey: string, voice: string = 'alloy'): Promise<void> {
     try {
       this.setStatus('connecting');
+      
+      // Dynamic import to avoid server-side bundling issues
+      const { RealtimeAgent, RealtimeSession } = await import('@openai/agents-realtime');
       
       // Create agent with voice configuration
       this.agent = new RealtimeAgent({

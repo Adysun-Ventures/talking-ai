@@ -5,6 +5,7 @@ import { RealtimeClient } from '@/lib/realtime-client';
 import type { ConnectionStatus } from '@/types/realtime';
 import ConnectionStatusComponent from './ConnectionStatus';
 import { cn } from '@/lib/utils';
+import { Loader2, Square, Mic } from 'lucide-react';
 
 type VoiceChatProps = {
   personaId?: string;
@@ -101,8 +102,9 @@ export default function VoiceChat({ personaId, defaultVoice }: VoiceChatProps) {
         <button
           onClick={handleStartCall}
           disabled={isDisabled}
+          aria-label={isConnected ? 'Stop call' : 'Start voice chat'}
           className={cn(
-            'relative w-24 h-24 rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed',
+            'relative w-[88px] h-[88px] md:w-[104px] md:h-[104px] rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed',
             isConnected
               ? 'bg-red-500 hover:bg-red-600 shadow-lg shadow-red-500/30'
               : 'bg-green-500 hover:bg-green-600 shadow-lg shadow-green-500/30'
@@ -110,16 +112,11 @@ export default function VoiceChat({ personaId, defaultVoice }: VoiceChatProps) {
         >
           <div className="absolute inset-0 flex items-center justify-center">
             {isConnecting ? (
-              <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <Loader2 className="w-8 h-8 text-white animate-spin" />
             ) : isConnected ? (
-              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M6 6h12v12H6z" />
-              </svg>
+              <Square className="w-8 h-8 text-white" />
             ) : (
-              <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
-                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
-              </svg>
+              <Mic className="w-8 h-8 text-white" />
             )}
           </div>
           {isConnected && <div className="absolute inset-0 rounded-full bg-red-400 animate-ping opacity-20" />}

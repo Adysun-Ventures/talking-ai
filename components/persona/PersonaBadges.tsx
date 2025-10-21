@@ -8,7 +8,7 @@ export default function PersonaBadges({ badges }: PersonaBadgesProps) {
       {badges.map((tag) => (
         <span
           key={tag}
-          className="px-2 py-0.5 rounded-full text-[10px] bg-white/10 border border-white/10 text-white/70"
+          className="px-2 py-0.5 rounded-full text-xs bg-white/12 border border-white/10 text-white/80"
         >
           {tag}
         </span>

@@ -32,7 +32,7 @@ export default function ConnectionStatus({ status, className }: ConnectionStatus
         };
       default:
         return {
-          text: 'Press to ask',
+          text: 'Press to speak',
           color: 'text-gray-400',
           bgColor: 'bg-gray-400'
         };
@@ -42,7 +42,7 @@ export default function ConnectionStatus({ status, className }: ConnectionStatus
   const config = getStatusConfig(status);
 
   return (
-    <div className={cn("flex items-center gap-2", className)}>
+    <div className={cn("flex items-center gap-3", className)}>
       {status === 'connected' && (
         <div
           className={cn(

@@ -88,7 +88,8 @@ export class RealtimeClient {
       // Send offer to server which proxies to OpenAI using unified interface
       // Pass persona to get persona-specific instructions and voice
       const response = await fetch(
-        `/api/realtime?persona=${encodeURIComponent(this.personaId)}&voice=${encodeURIComponent(this.getVoiceId())}`,
+        // Do not send `voice` here; server chooses voice from persona config
+        `/api/realtime?persona=${encodeURIComponent(this.personaId)}`,
         {
           method: 'POST',
           headers: {

@@ -49,7 +49,7 @@ export const PERSONAS: Persona[] = [
     initials: 'BA',
     gender: 'male',
     image: '/personas/br-ambedkar.jpg',
-    defaultVoice: 'ballad',
+    defaultVoice: 'cedar',
   },
   {
     id: 'bhagat-singh',

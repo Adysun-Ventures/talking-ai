@@ -30,6 +30,47 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  /* Shimmer utility for icons/buttons */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+    isolate: isolate; /* keep blend inside */
+    display: inline-block;
+  }
+  .shimmer::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 150%;
+    height: 100%;
+    /* sky-blue accented inverse sweep */
+    background: linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(56,189,248,0.5) 35%, /* tailwind sky-400 */
+      #ffffff 50%,
+      rgba(56,189,248,0.5) 65%,
+      transparent 100%
+    );
+    mix-blend-mode: difference; /* invert underlying pixels */
+    opacity: 0; /* hidden by default */
+    transform: skewX(-20deg);
+    animation: shimmerMove 1.6s ease-in-out infinite;
+    animation-play-state: paused; /* run only on hover via group */
+  }
+
+  /* Show shimmer only on hover of a parent with Tailwind 'group' */
+  .group:hover .shimmer::after {
+    opacity: 0.9;
+    animation-play-state: running;
+  }
+}
+
+@keyframes shimmerMove {
+  0% { left: -150%; }
+  100% { left: 150%; }
 }
 
 /* Custom gradient background */

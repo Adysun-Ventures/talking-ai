@@ -14,7 +14,7 @@ export default function ExplorePage() {
           {PERSONAS.map((persona) => (
             <Link
               key={persona.id}
-              href={`/?persona=${encodeURIComponent(persona.id)}`}
+              href={`/chat?persona=${encodeURIComponent(persona.id)}`}
               className="group rounded-xl border border-white/10 bg-white/5 p-4 text-white/80 hover:text-white hover:bg-white/10 hover:border-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-sky-400/40"
               aria-label={`Select ${persona.name}`}
             >
@@ -23,7 +23,7 @@ export default function ExplorePage() {
               </div>
               <div className="font-medium mb-1">{persona.name}</div>
               <div className="text-xs text-white/60 line-clamp-2 mb-2">{persona.description}</div>
-              <PersonaBadges badges={persona.badges} />
+              {/* <PersonaBadges badges={persona.badges} /> */}
             </Link>
           ))}
         </div>

@@ -223,14 +223,16 @@ export class RealtimeClient {
   }
 
   private setupAudioOutput(stream: MediaStream): void {
+    // Use a single playback path to avoid echo (no double routing)
     this.audioElement = document.createElement('audio');
     this.audioElement.srcObject = stream;
     this.audioElement.autoplay = true;
-    this.audioElement.volume = 0.8;
-    
-    this.audioContext = new AudioContext();
-    const source = this.audioContext.createMediaStreamSource(stream);
-    source.connect(this.audioContext.destination);
+    this.audioElement.volume = 1.0;
+    // Inline playback hint for iOS via attribute
+    this.audioElement.setAttribute('playsinline', 'true');
+
+    // If you need WebAudio processing later, ensure the <audio> is muted
+    // and only route through AudioContext (do not do both).
   }
 
   private setSpeaking(speaking: boolean): void {

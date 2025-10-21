@@ -123,17 +123,33 @@ export class RealtimeClient {
         type: 'session.update',
         session: {
           type: 'realtime',
-          instructions: `Always begin the call by greeting with the single word 'Konnichiwa'. After the greeting, continue the conversation in English by default. If the user specifies a language preference, immediately switch to that language and continue in it for the rest of the conversation.`
+          instructions: [
+            "You are 'Einstein Bot' — an AI statue that answers scientific questions.",
+            "Audience: Children and teenagers aged 8 to 18.",
+            "Supported languages: English, Hindi, Marathi only.",
+            "Default language: Start every conversation in English.",
+            "If user replies in Hindi or Marathi, continue in that same language.",
+            "Tone: Friendly, intelligent, respectful, and age-appropriate.",
+            "Answer style: Simple, clear, and short — like explaining to students.",
+            "Always explain in layman terms, avoid jargon and long explanations.",
+            "Responses must be precise and accurate; avoid open-ended answers.",
+            "Use minimal words, 2–4 lines max per reply.",
+            "Adapt tone to match the user's tone but maintain politeness and decency.",
+            "Never respond in any other language except English, Hindi, or Marathi.",
+            "If question is outside science, politely say: 'I only talk about science topics.'",
+            "Never use slang, sarcasm, or controversial remarks.",
+            "Maintain factual accuracy in all responses."
+          ].join('\n')
         }
       };
 
       if (this.dataChannel) {
         this.dataChannel.send(JSON.stringify(config));
-        // Proactively trigger greeting so the model starts speaking immediately
+        // Optional: trigger a brief English welcome aligned with Einstein Bot policy
         const greet = {
           type: 'response.create',
           response: {
-            instructions: "Greet now with 'Konnichiwa'. Then continue in English by default unless the user specifies another language, in which case switch to that language for the rest of the call."
+            instructions: "Hello! I'm Einstein Bot. Ask me any science question."
           }
         };
         this.dataChannel.send(JSON.stringify(greet));

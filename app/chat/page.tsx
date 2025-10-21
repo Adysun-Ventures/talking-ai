@@ -1,4 +1,6 @@
 import VoiceChat from '@/components/VoiceChat';
+import Link from 'next/link';
+import { Compass } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { PERSONA_BY_ID, DEFAULT_PERSONA_ID } from '@/components/persona/personas';
 import PersonaAvatar from '@/components/persona/PersonaAvatar';
@@ -31,6 +33,13 @@ export default function ChatPage({ searchParams }: ChatProps) {
       <div className="absolute inset-0 bg-black/80" aria-hidden="true" />
       <div className="relative z-10 w-full max-w-5xl">
         <div className="rounded-2xl p-6 shadow-2xl border border-white/15 bg-white/10 backdrop-blur-xl ring-1 ring-white/10">
+          <div className="flex justify-end mb-2">
+            <Link href="/explore" aria-label="Explore" title="explore other bots !">
+              <span className="grid place-items-center w-10 h-10 rounded-full bg-white/10 border border-white/15 hover:scale-110 hover:-rotate-3 transition duration-200 ease-out">
+                <Compass className="w-6 h-6 text-white/80" />
+              </span>
+            </Link>
+          </div>
           {/* Two-column layout: 40% left (avatar/info), 60% right (VoiceChat) */}
           <div className="flex flex-col md:grid md:grid-cols-[2fr_3fr] md:gap-6">
             {/* Left column: Persona info */}

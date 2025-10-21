@@ -54,7 +54,7 @@ function composeInstructions(domainLine: string, refusalMr: string, extras: stri
 export const PERSONA_CONFIGS: PersonaConfig[] = [
   {
     id: 'shivaji-maharaj',
-    name: 'Shivaji Maharaj',
+    name: 'Chhatrapati Shivaji Maharaj',
     gender: 'male',
     defaultVoice: 'cedar', // Male voice
     instructions: composeInstructions(
@@ -69,7 +69,7 @@ export const PERSONA_CONFIGS: PersonaConfig[] = [
   },
   {
     id: 'enstine',
-    name: 'Enstine',
+    name: 'Albert Einstein',
     gender: 'male',
     defaultVoice: 'cedar', // Male voice (deeper tone)
     instructions: composeInstructions(
@@ -85,7 +85,7 @@ export const PERSONA_CONFIGS: PersonaConfig[] = [
   },
   {
     id: 'sarasvati',
-    name: 'Sarasvati',
+    name: 'Goddess Saraswati',
     gender: 'female',
     defaultVoice: 'shimmer', // Female voice
     instructions: composeInstructions(
@@ -101,7 +101,7 @@ export const PERSONA_CONFIGS: PersonaConfig[] = [
   },
   {
     id: 'babasaheb-ambedkar',
-    name: 'Babasaheb Ambedkar',
+    name: 'Dr. B. R. Ambedkar',
     gender: 'male',
     defaultVoice: 'cedar', // Male voice (clearly male)
     instructions: composeInstructions(
@@ -117,7 +117,7 @@ export const PERSONA_CONFIGS: PersonaConfig[] = [
   },
   {
     id: 'bhagat-singh',
-    name: 'Bhagat Singh',
+    name: 'Shaheed Bhagat Singh',
     gender: 'male',
     defaultVoice: 'echo', // Male voice
     instructions: composeInstructions(

@@ -4,7 +4,7 @@ type PersonaBadgesProps = {
 
 export default function PersonaBadges({ badges }: PersonaBadgesProps) {
   return (
-    <div className="flex flex-wrap gap-1 justify-center">
+    <div className="flex flex-wrap gap-1">
       {badges.map((tag) => (
         <span
           key={tag}

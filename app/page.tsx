@@ -33,7 +33,7 @@ export default function Home({ searchParams }: HomeProps) {
       <div className="absolute inset-0 backdrop-blur-lg" aria-hidden="true" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" aria-hidden="true" />
       <div className="relative z-10 w-full max-w-5xl">
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 shadow-lg backdrop-blur-sm">
+        <div className="rounded-2xl p-6 shadow-2xl border border-white/20 bg-white/10 backdrop-blur-xl ring-1 ring-white/10">
           <div className="flex justify-end mb-2">
             <Link href="/explore" aria-label="Explore" title="explore other bots !" className="transition duration-200 ease-out">
               <span className="grid place-items-center hover:scale-110 hover:-rotate-3 transition duration-200 ease-out">

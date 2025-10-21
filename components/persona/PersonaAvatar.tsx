@@ -6,15 +6,17 @@ import type { Persona } from './personas';
 
 type PersonaAvatarProps = {
   persona: Persona;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 };
 
 const sizeMap = {
+  xs: 'w-10 h-10 sm:w-12 sm:h-12',
   sm: 'w-12 h-12',
   md: 'w-16 h-16 sm:w-20 sm:h-20',
   lg: 'w-24 h-24 sm:w-32 sm:h-32',
   xl: 'w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48',
-};
+  '2xl': 'w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64',
+} as const;
 
 export default function PersonaAvatar({ persona, size = 'md' }: PersonaAvatarProps) {
   const [imageError, setImageError] = useState(false);

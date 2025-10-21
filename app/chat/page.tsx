@@ -44,7 +44,7 @@ export default function ChatPage({ searchParams }: ChatProps) {
           <div className="flex flex-col md:grid md:grid-cols-[2fr_3fr] md:gap-6">
             {/* Left column: Persona info */}
             <div className="flex flex-col items-center md:items-start space-y-4 mb-6 md:mb-0">
-              <PersonaAvatar persona={persona} size="xl" />
+              <PersonaAvatar persona={persona} size="2xl" />
               <div className="text-center md:text-left">
                 <h2 className="text-white text-2xl md:text-3xl font-semibold mb-2">{persona.name}</h2>
                 <p className="text-white/85 text-sm md:text-base leading-relaxed max-w-[36ch] mb-3">{persona.description}</p>
